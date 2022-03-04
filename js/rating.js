@@ -10,6 +10,20 @@ const initRatings = (ratings) => {
         ratingValue = rating.querySelector(".rating__value");
 
     }
+
+    const setRateToLocal = (rating, value) => {
+        // если val 0 - удалить из коллекции
+
+        let rate = ratingCollection.filter(e => e.id == rating.dataset.heroId);
+        if (rate.length > 0) {
+            rate[0].rate = +value;
+        } else {
+            ratingCollection.push(new HeroLocalRate(rating.dataset.heroId, +value));
+        }
+        localStorage.setItem("ratingCollection", JSON.stringify(ratingCollection));
+
+
+    }
     const setRating = (rating) => {
         //взять первоночальные значения из LocalStorage
         let rate = ratingCollection.filter(e => e.id == rating.dataset.heroId);
@@ -32,15 +46,7 @@ const initRatings = (ratings) => {
             ratingItem.addEventListener("click", (e) => {
                 initActiveRatingVars(rating);
                 // ratingValue.innerHTML = Math.floor((+e.clientX - 303) / 158 * 5 * 10) / 10;
-
-                let rate = ratingCollection.filter(e => e.id == rating.dataset.heroId);
-                if (rate.length > 0) {
-                    rate[0].rate = +ratingItem.value;
-                } else {
-                    ratingCollection.push(new HeroLocalRate(rating.dataset.heroId, +ratingItem.value));
-                }
-                localStorage.setItem("ratingCollection", JSON.stringify(ratingCollection));
-                
+                setRateToLocal(rating, ratingItem.value);
                 ratingValue.innerHTML = +ratingItem.value;
                 setActiveRatingWidth();
             });
