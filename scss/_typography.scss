@@ -1,0 +1,10 @@
+.container-fluid {
+    min-height: 100vh;
+}
+
+.card__img {
+    // max-height: 80%;
+    // min-height: 50%;
+    height: 60%;
+    object-fit: cover;
+}
